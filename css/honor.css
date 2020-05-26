@@ -1,0 +1,59 @@
+
+
+
+/* 荣誉资质 */
+.honorList{padding: 60px 6% 0 6%;}
+
+.honorList .item{width:22%;/* height: 270rpx; */margin: 0 4% 30px 0;overflow: hidden;float: left;}
+.honorList .item:nth-of-type(4n){ margin-right: 0;}
+.honorList .item .pic{width: 100%;height: 275px;overflow: hidden;background: url(../images/homorl-img.jpg) no-repeat 0 0/100% 100%;padding: 15px;box-sizing: border-box;}
+.honorList .item .Shaow{width: 80%;height: 0px;margin: 0 auto;box-shadow: 0 0 16px 8px rgba(0,0,0,0.3);}
+.honorList .item .pic img{width: 100%;height: 100%;}
+.honorList .item .tit{font-size: 18px;height: 60px;line-height:30px;position: relative;margin:30px 18%;box-sizing: initial;}
+
+
+
+@media screen and ( max-width: 1600px){
+	.honorList .item .pic{height: 231px;}
+	.honorList .item .tit{margin: 25px 10%;}
+}
+@media screen and ( max-width: 1440px){
+	.honorList .item .pic{height:209px;}
+}
+@media screen and ( max-width: 1366px){
+	.honorList .item{width:22.7%;margin-right: 3%;}
+	.honorList .item .pic{height:204px;}
+	.honorList .item .tit{font-size: 16px;margin: 20px 8%;line-height: 26px;height: 52px;}
+}
+
+@media screen and ( max-width: 1280px){
+	.honorList{padding: 40px 3% 0 3%;}
+	.honorList .item .pic{height:205px;}
+}
+@media screen and ( max-width: 1024px){
+	.honorList .item .pic{height:165px;}
+}
+@media screen and ( max-width: 768px){
+	.honorList{padding-top: 30px;}
+	.honorList .item{width: 32%;margin-right: 2%;margin-bottom: 15px;}
+	.honorList .item .pic{height:174px;}
+	.honorList .item .tit{ margin: 20px 4%;font-size: 15px;}
+	div.honorList .item:nth-child(3n){margin-right: 0;}
+	.honorList .item:nth-child(4n){margin-right: 2%;}
+
+}
+@media screen and ( max-width: 420px){
+	.honorList{padding-top: 20px;}
+	.honorList .item{width: 48%;margin: 0 0 10px 0!important;}
+	.honorList .item:nth-child(2n){float: right;}
+	.honorList .item .pic{height:143px;}
+	.honorList .item .tit{font-size: 14px;margin: 15px 3%;line-height: 20px;height: 40px;}
+}
+@media screen and ( max-width: 375px){
+	.honorList .item .pic{height:130px;}
+}
+@media screen and ( max-width: 320px){
+	.honorList .item .pic{height:112px;}
+	.honorList .item .tit{font-size: 13px;margin-bottom: 10px;}
+}
+

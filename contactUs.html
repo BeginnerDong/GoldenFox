@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<title>联系我们</title>
+		<script type="text/javascript" src="./js/vue.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script type="text/javascript" src="js/include.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/public.css">
+	</head>
+	<style>
+		.width7{width: 70%;margin: 0 auto;}
+		.company .item{margin-bottom: 50px;}
+		.company .left{width: 47.5%;min-height: 341px;border: 1px solid #eee;box-sizing: border-box;}
+		.company .left .T-tit{padding: 20px 5%;min-height: 96px;max-height: 50%;}
+		.company .left .T-tit .title{font-size: 24px;line-height: 30px;margin-top: 13px;}
+		.company .left .Logo{height:55px;overflow: hidden;}
+		.company .left .Logo img{height:100%;float: right;}
+		.company .left .infor{padding: 40px 8%;}
+		.company .left .infor p{padding-left: 50px;position: relative;font-size: 18px; margin-bottom: 40px;}
+		.company .left .infor p:last-child{margin-bottom: 0;}
+		.company .left .infor .icon{width: 30px;height: 30px;position:absolute ;top: 50%;left: 0;transform: translateY(-50%);}
+		
+		.company .item .right{width: 47.5%;border: 1px solid #eee;height: 341px;box-sizing: border-box;}
+		
+		/* 留言板 */
+		.editBoard{padding: 50px 4% 100px 4%;}
+		.editBoard .half{width: 46%;}
+		.editBoard input{width: 100%;height: 50px;border-radius: 5px;background-color: #F5F5F5;display: block;box-sizing: border-box;padding: 0 20px;font-size: 16px;}
+		.editBoard .liuyan{margin: 40px 0;}
+		.editBoard textarea{width: 100%;height: 300px;border-radius: 5px;background-color: #F5F5F5;display: block;box-sizing: border-box;padding: 20px;font-size: 16px;}
+		
+		@media screen and ( max-width: 1600px){
+			.width7{width: 80%;}
+		}
+		@media screen and ( max-width: 1366px){
+			.width7{width: 88%;}
+			.company .left .T-tit{padding: 20px 3%;}
+			.company .left{min-height: 320px;}
+			.company .item .right{height: 320px;}
+			.company .left .T-tit .title{font-size: 22px;}
+			.company .left .infor{padding: 40px 5%;}
+			.company .left .infor .icon{width: 26px;height: 26px;}
+			.company .left .infor p{padding-left: 35px;margin-bottom: 35px;font-size: 16px;}
+		}
+		@media screen and ( max-width: 1024px){
+			.width7{width: 94%;}
+			.company .left{min-height: 290px;}
+			.company .item .right{height: 290px;}
+			.company .left .infor{padding: 40px 5%;}
+			.company .left .T-tit{padding: 15px 3%;height: 76px;min-height: auto;}
+			.company .left .T-tit .title {font-size: 18px;margin-top: 7px;}
+			.company .left .Logo{height: 45px;}
+			.company .left .infor p{margin-bottom: 30px;font-size: 15px;}
+		}
+		@media screen and ( max-width: 768px){
+			.company .left{width: 48.5%;min-height: 270px;}
+			.company .left .infor{padding: 30px 4%;}
+			.company .item .right{width: 48.5%;height: 270px;}
+			.company .item {margin-bottom: 35px;}
+		}
+		
+		@media screen and ( max-width: 500px){
+			.company .item { margin-bottom: 40px;}
+			.company .item:last-child{margin-bottom: 0;}	
+			.company .left .T-tit{min-height: 71px;height: auto;}
+			.company .left .Logo{height: 40px;}
+			.company .left .T-tit .title{margin-top: 5px;}
+			.company .left{width: 100%;min-height: auto;border-bottom: 0;}
+			.company .item .right{width: 100%;height: 240px;}
+			.company .left .infor p {margin-bottom: 20px;}
+			.company .left .infor{padding: 20px 4%;}
+			
+			.editBoard{padding: 40px 4% 60px 4%;}
+			.editBoard .half{width: 48.5%;}
+			.editBoard input{height: 40px;line-height: 40px;padding: 0 10px;font-size: 13px;}
+			.editBoard .liuyan{margin: 15px 0 30px 0;}
+			.editBoard textarea{padding:10px;font-size: 13px;height: 180px;}
+			.submitbtn .Wbtn{height: 44px;line-height: 44px; font-size: 15px;}
+		}
+	</style>
+
+<body>
+	<div id="app">
+		<include src="header.html"></include>
+		<div class="">
+			<img class="w" src="images/contact-usl-banner.jpg" >
+		</div>
+		
+		<div class="width7 pdb80">
+			<div class="pubtit center">
+				<h1 class="title">分公司</h1>
+				<p class="xian"></p>
+			</div>
+			<div class="company">
+				<div class="item clearfix" v-for="(item,index) in companyData" :key="index">
+					<div class="left fl">
+						<div class="T-tit borderB1 clearfix">
+							<div class="title fl">短电弧科技</div>
+							<div class="Logo fr"><img src="images/contact-usl-img1.png" ></div>
+						</div>
+						<div class="infor">
+							<p>
+								<img class="icon" src="images/contact-usl-icon.png" >
+								<em>15623232945</em>
+							</p>
+							<p>
+								<img class="icon" src="images/contact-usl-icon1.png" >
+								<em>15623238888@qq.com</em>
+							</p>
+							<p>
+								<img class="icon" src="images/contact-usl-icon2.png" >
+								<em>陕西省西安市雁塔区高新大都荟</em>
+							</p>
+						</div>
+					</div>
+					<div class="right fr">
+						<iframe src="map_API.html" style="width: 100%;height: 100%;box-sizing: border-box;border: 0;"></iframe>
+					</div>
+				</div>
+			</div>
+		
+			<div class="pubtit center">
+				<h1 class="title">留言板</h1>
+				<p class="xian"></p>
+			</div>
+			<div class="boxShaow editBoard">
+				<div class="clearfix">
+					<div class="half name fl"><input type="text" name="" value="" placeholder="姓名" /></div>
+					<div class="half phone fr"><input type="text" name="" value="" placeholder="电话" /></div>
+				</div>
+				<div class="liuyan">
+					<textarea rows="" cols="" placeholder="留言"></textarea>
+				</div>
+				<div class="submitbtn">
+					<button class="Wbtn" type="button">确认留言</button>
+				</div>
+			</div>
+		</div>
+		
+		
+			
+		<include src="footer.html"></include>
+	</div>
+</body>
+
+	
+	<script type="text/javascript">
+		var app = new Vue({
+		    el: '#app',
+		    data:function(){
+		        return {
+		        	banner_index:0,
+					is_show:false,
+					wx_show:2,
+					mainData: [],
+					labelData: [],
+					companyData:3
+		        }
+		    },
+		    methods: {
+				getMainData: function(id){
+				    var self = this;
+				    var callback = function(res){
+				        console.log('getMainData', res);
+				        self.mainData.push.apply(self.mainData,res.info.data);
+				        for (var i = 0; i < self.mainData.length; i++) {
+				        	self[self.mainData[i].title] = self.mainData[i];
+				        };
+				        self.getNewsData()
+				    };
+					console.log('self.mainData',self.mainData)
+				    window.base.labelGet(postData, callback);
+				}
+				
+		    }
+		});
+	</script>
+	<style type="text/css">
+		
+		
+		@media screen and ( max-width: 1000px){
+			
+		}
+		@media screen and ( max-width: 500px){
+			
+		}
+	</style>
+</html>

@@ -1,0 +1,58 @@
+
+/* 产品列表 */
+.productLis{padding: 60px 6% 0 6%;}
+.productLis .item{width: 32%;/* height: 270rpx; */margin: 0 2% 30px 0;overflow: hidden;}
+.productLis .item:nth-of-type(3n){ margin-right: 0;}
+.productLis .item .pic{width: 100%;height: 362px;overflow: hidden;}
+.productLis .item .pic img{width: 100%;height: 100%;}
+.productLis .item .tit{height: 64px;font-size: 16px;line-height: 64px;position: relative;padding-right: 35px;box-sizing: border-box;}
+.productLis .item .tit .arrow{width: 16px;height: 16px;position: absolute;top: 50%;right: 0px;transform: translateY(-50%);}
+
+
+@media screen and ( max-width: 1600px){
+	.productLis .item .pic{height: 302px;}
+}
+
+@media screen and ( max-width: 1440px){
+	.productLis .item .pic{height: 272px;}
+}
+
+@media screen and ( max-width: 1366px){
+	.productLis .item .pic{height: 258px;}
+	.productLis .item .tit{line-height: 50px;height: 50px;}
+}
+
+@media screen and ( max-width: 1280px){
+	.productLis .item .pic{height: 242px;}
+}
+
+@media screen and ( max-width: 1024px){
+	.productLis{padding: 30px 3% 0 3%;}
+	
+	.productLis .item{margin-bottom: 15px;}
+	.productLis .item .pic{height: 206px;}
+	.productLis .item .tit{font-size: 15px;line-height: 44px;height: 44px;}
+}
+@media screen and ( max-width: 768px){
+	.productLis .item .pic{height: 155px;}
+}
+@media screen and ( max-width: 640px){
+	.productLis .item .pic{height: 129px;}
+}
+@media screen and ( max-width: 420px){
+	.productLis{padding-top: 15px;}
+	.productLis .item{width: 48.5%;margin-bottom: 10px;margin: 0 0 10px 0;}
+	.productLis .item:nth-child(2n){float: right;}
+	.productLis .item .pic{height: 126px;}
+	.productLis .item .tit{height: 40px;font-size: 14px;line-height: 40px;padding-right: 20px;}
+	.productLis .item .tit .arrow{width: 12px;height: 12px}
+}
+@media screen and ( max-width: 375px){
+	.productLis .item .pic{height: 115px;}
+	.productLis .item .tit{line-height: 36px;height: 36px;}
+}
+@media screen and ( max-width: 320px){
+	.productLis .item .pic{height: 98px;}
+	.productLis .item .tit{font-size: 13px;}
+}
+

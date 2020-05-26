@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<title>工程案例</title>
+		<script type="text/javascript" src="./js/vue.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script type="text/javascript" src="js/include.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/public.css">
+		<link type="text/css" rel="stylesheet" href="css/index.css">
+		<link type="text/css" rel="stylesheet" href="css/detail.css">
+	</head>
+	<style type="text/css">
+		.caseList{padding: 60px 6% 0 6%;}
+		.caseList .item{width:32%;/* height: 270rpx; */margin: 0 2% 30px 0;overflow: hidden;float: left;border-bottom: 4px solid #ffe1e5;box-shadow: 0 3px 10px rgba(66, 66, 66, 0.1);}
+		.caseList .item:nth-of-type(3n){ margin-right: 0;}
+		.caseList .item .infor{padding: 20px;box-sizing: border-box;}
+		.caseList .item .title{height: 70px;line-height: 70px;background-color: #f1f1f1;padding: 0 3%;font-size: 20px;}
+		.caseList .item .pic{width: 100%;height: 344px;overflow: hidden;box-sizing: border-box; margin-bottom: 20px;}
+		.caseList .item .pic img{width: 100%;height: 100%;}
+		
+		.caseList .item .text{font-size: 16px;height: 90px;line-height:30px;}
+		
+		@media screen and ( max-width: 1600px){
+			.caseList .item .pic{height: 283px;}
+		}
+		@media screen and ( max-width: 1440px){
+			.caseList .item .pic{height: 252px;}
+			.caseList .item .title{line-height: 60px;height: 60px;font-size: 18px;}
+			.caseList .item .text{font-size: 15px;line-height: 26px;height: 78px;}
+		}
+		
+		@media screen and ( max-width: 1366px){
+			.caseList .item .pic{height: 237px; margin-bottom: 15px;}
+			.caseList .item .title{line-height: 50px;height: 50px;font-size: 17px;}
+			.caseList .item .text{font-size: 14px;line-height: 24px;height: 72px;}
+		}
+		@media screen and ( max-width: 1280px){
+			.caseList{padding: 40px 3% 0 3%;}
+			.caseList .item .pic{height: 237px; }
+		}
+		
+		@media screen and ( max-width: 1024px){
+			.caseList .item .infor{padding: 10px;}
+			.caseList .item .pic{height: 197px; }
+			.caseList .item .title{font-size: 16px;}
+		}
+		@media screen and ( max-width: 768px){
+			.caseList{padding-top: 30px;}
+			.caseList .item{margin-bottom: 20px;}
+			.caseList .item .pic{height: 145px; }
+			.caseList .item .title{font-size: 15px;}
+		}
+		
+		@media screen and ( max-width: 640px){
+			.caseList .item .pic{height: 119px;}
+		}
+		@media screen and ( max-width: 420px){
+			.caseList{padding-top: 20px;}
+			.caseList .item{width: 48.5%;margin-right: 0!important;}
+			.caseList .item:nth-child(2n){float: right;}
+			.caseList .item .pic{height: 115px; margin-bottom: 10px;}
+			.caseList .item .title{font-size: 14px;line-height: 40px;height: 40px;}
+			.caseList .item .text{font-size: 13px;line-height: 22px;height: 66px;}
+		}
+		
+		@media screen and ( max-width: 375px){
+			.caseList .item .pic{height: 104px; margin-bottom: 10px;}
+			.caseList .item .title{font-size: 14px;line-height: 40px;height: 40px;}
+			.caseList .item .text{font-size: 13px;line-height: 22px;height: 66px;}
+		}
+		@media screen and ( max-width: 360px){
+			.caseList .item .pic{height: 100px;}
+		}
+		@media screen and ( max-width: 320px){
+			.caseList .item .pic{height: 87px; }
+			.caseList .item .text{font-size: 12px;line-height: 20px;height: 60px;}
+		}
+		
+		
+	</style>
+
+<body>
+	<div id="app">
+		<include src="header.html"></include>
+		<!-- <include src="banner.html"></include> -->
+		<div class="">
+			<img class="w" src="images/banner1.jpg" >
+		</div>
+		
+		<div class="caseList">
+			<div class="clearfix">
+				<div class="item fl" v-for="(item,index) in caseData" :key="index">
+					<a href="detail.html">
+						<div class="title center avoidOverflow">产品标题产品标题产品标题</div>
+						<div class="infor">
+							<div class="pic"><img src="images/casel-img.jpg" alt=""></div>
+							<p class="text avoidOverflow3 color6">讲话稿昆仑神宫更好发动机开了个会打飞机开了个复活甲看电视了飞瑞斯法会让是在说咖啡豆了和吃饭的时候了哈根达斯哦附近弱势欧冠过分精灵盛典过会官方号地块好过分开了读后感如果换个挂号费收费GV话费送道具发货</p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="all-pages">
+			<a class="no-prev"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
+			<a class="current">1</a>
+			<a href="#">2</a>
+			<a href="#">3</a>
+			<a href="#">4</a>
+			<a href="#">5</a>
+			<a href="#" class="next"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
+		</div>
+		
+		
+		<include src="footer.html"></include>
+		
+	</div>
+</body>
+
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data:function(){
+			return {
+				banner_index:0,
+				is_show:false,
+				wx_show:2,
+				mainData: [],
+				labelData: [],
+				caseData:9
+			}
+		},
+		methods: {
+			getMainData: function(id){
+				var self = this;
+				var callback = function(res){
+					console.log('getMainData', res);
+					self.mainData.push.apply(self.mainData,res.info.data);
+					for (var i = 0; i < self.mainData.length; i++) {
+						self[self.mainData[i].title] = self.mainData[i];
+					};
+					self.getNewsData()
+				};
+				console.log('self.mainData',self.mainData)
+				window.base.labelGet(postData, callback);
+			}
+			
+		}
+	});
+</script>
+
+
+</html>

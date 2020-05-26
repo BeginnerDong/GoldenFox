@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<title>短电弧科技</title>
+		<script type="text/javascript" src="./js/vue.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script type="text/javascript" src="js/include.js"></script>
+		<script type="text/javascript" src="js/swiper.min.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/public.css">
+		<link type="text/css" rel="stylesheet" href="css/index.css">
+	</head>
+
+<body>
+	<div id="app">
+		
+		<include src="header.html"></include>
+		
+		<!-- banner -->
+		<div class="pubHeadBanner">
+			<include src="banner.html"></include>
+		</div>
+		
+		<!-- 业务领域 -->
+		<div class="">
+			<div class="width83 pdb80">
+				<div class="pubtit center">
+					<h1 class="title">业务领域</h1>
+					<p class="xian"></p>
+				</div>
+				<div class="ind-box1">
+					<ul class="clearfix">
+						<li class="item fl" v-for="(item,index) in newsData" :key="index">
+							<a href="detail.html">
+								<p class="tit avoidOverflow center">积分开始的恢复</p>
+								<div class="pic oh"><img src="images/home-img.jpg" /></div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 成功案例和经验介绍 -->
+		<div class="f5bj ind-box2 pr">
+			<div class="width83">
+				<div class="pubtit center">
+					<h1 class="title">成功案例和经验介绍</h1>
+					<p class="xian"></p>
+				</div>
+				<div class="cont">
+					<ul class="clearfix">
+						<li class="item fl" v-for="(item,index) in caseData" :key="index">
+							<a href="detail.html">
+								<div class="pic oh"><img src="images/home-img1.jpg" /></div>
+								<p class="tit avoidOverflow center">积分开始的恢复</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<img class="bjPic" src="images/home-img5.png">
+		</div>
+		
+		
+		<!-- 产品展示 -->
+		<div class="ind-box3 pr pdb80">
+			<div class="width83">
+				<div class="pubtit center">
+					<h1 class="title">产品展示</h1>
+					<p class="xian"></p>
+				</div>
+				<div class="infor clearfix center">
+					<div class="item" v-for="(item,index) in productData" :key="index">
+						<p class="tit avoidOverflow">数控短电弧蜂窝磨削加工机床</p>
+						<div class="bigPic"><img src="images/home-img2.png" ></div>
+						<div class="samllPic borderB1 color6 clearfix">
+							<div class="tt">
+								<img class="img" src="images/home-img3.png" >
+								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
+							</div>
+							<div class="tt">
+								<img class="img" src="images/home-img3.png" >
+								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
+							</div>
+							<div class="tt">
+								<img class="img" src="images/home-img3.png" >
+								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
+							</div>
+						</div>
+						<div class="textTit center">用途及使用范围</div>
+						<div class="avoidOverflow3 text2">好过分分，收到货法规获国家开发第三轮很给力规范化但实力，发鼓风机考虑到加工费鲁大师哦扔；一切都是公用的，都已经进入了公摊面积，每户都承担了费用，产权是共有的公共使用任何人不得占为独有你的问题可以找小区物业管理解决区物业管理解决</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<include src="footer.html"></include>
+		
+	</div>
+</body>
+
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data:function(){
+			return {
+				banner_index:0,
+				is_show:false,
+				wx_show:2,
+				mainData: [],
+				labelData: [],
+				newsData:4,
+				caseData:5,
+				productData:3
+			}
+		},
+		methods: {
+			getMainData: function(id){
+				var self = this;
+				var callback = function(res){
+					console.log('getMainData', res);
+					self.mainData.push.apply(self.mainData,res.info.data);
+					for (var i = 0; i < self.mainData.length; i++) {
+						self[self.mainData[i].title] = self.mainData[i];
+					};
+					self.getNewsData()
+				};
+				console.log('self.mainData',self.mainData)
+				window.base.labelGet(postData, callback);
+			}
+			
+		}
+	});
+</script>
+
+
+</html>

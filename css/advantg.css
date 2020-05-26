@@ -1,0 +1,34 @@
+
+
+.advantgList .item{border: 2px dashed #6d6d6d;border-top: 0;padding: 65px 5%;position: relative;}
+.advantgList .item .num{width: 40px;font-size: 44px;line-height: 50px;color: #e3041f;position: absolute;top:15%;left: -20px;background: #fff;padding: 15px 0;text-align: center;font-weight: normal;}
+.advantgList .item .text{width: 70%;font-size: 16px;line-height: 30px;float: left;padding-top: 30px;}
+.advantgList .item .icon{width: 28%;float: right;padding-left: 3%;}
+.advantgList .item .icon img{width: 65%;height: auto;float: right;}
+
+.advantgList .item:nth-of-type(2n+1){border-right: 0;}
+.advantgList .item:nth-of-type(2n){border-left: 0;}
+.advantgList .item:nth-of-type(2n) .icon{float: left;padding-left: 0;padding-right: 3%;}
+.advantgList .item:nth-of-type(2n) .icon img{float: left;}
+.advantgList .item:nth-of-type(2n) .text{float: right;}
+.advantgList .item:nth-of-type(2n) .num{left: auto;right: -20px;}
+.advantgList .item:last-child{border-bottom: 0;}
+
+@media screen and ( max-width: 768px){
+	.advantgList{padding: 0 2%;}
+	.advantgList .item{padding: 50px 5%;}
+	.advantgList .item .text{padding-top: 0;}
+	.advantgList .item .num{width: 24px;font-size: 34px;line-height: 36px;    left: -12px;}
+	.advantgList .item:nth-of-type(2n) .num{right: -12px;}
+	.advantgList .item .icon img{width: 72%;}
+	
+	
+}
+
+@media screen and ( max-width: 500px){
+	.advantgList .item .num{font-size: 30px;padding: 10px 0;}
+	.advantgList .item .icon img{width: 95%;}
+	.advantgList .item{padding: 35px 5%;}
+	.advantgList .item .text{font-size: 14px;line-height: 24px;}
+}
+

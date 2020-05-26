@@ -1,0 +1,135 @@
+
+<div id="footer">
+	<div class="footer fs12 white">
+		<div class="width83 cont">
+			<div class="footNav clearfix center">
+				<p><a href="index.html">首页</a></p>
+				<p><a href="aboutUs.html">关于我们</a></p>
+				<p><a href="Advantage.html">核心优势</a></p>
+				<p><a href="product.html">产品中心</a></p>
+				<p><a href="honor.html">荣誉资质</a></p>
+				<p><a href="projectCases.html">工程案例</a></p>
+				<p><a href="news.html">新闻中心</a></p>
+				<p><a href="contactUs.html">联系我们</a></p>
+			</div>
+			<div class="footMsg clearfix">
+				<div class="ll fl oh">
+					<div class="company fl center">
+						<h1 class="phone ">029-8956-2589</h1>
+						<img class="logo" src="images/home-logo.png" >
+					</div>
+					<div class="text fs16 fl">
+						<p>邮箱：123456789452@163.com</p>
+						<p class="p2">QQ：5464646646</p>
+						<p>地址：西安市高新区锦业路38号粤汉国际D作23层</p>
+					</div>
+					
+				</div>
+				<div class="rr fr clearfix">
+					<img class="ewm fr" src="images/home-img4.png" >
+				</div>
+			</div>
+		</div>
+		<div class="copyRight center fs16">Copyright 2019 OpenEast.com ALL Rights Reserved粤ICP备15032530号-1</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+		var footer = new Vue({
+		    el: '#footer',
+		    data:function(){
+		        return {
+		        	banner_index:0,
+					is_show:false,
+					wx_show:2,
+					mainData: [],
+					labelData: []
+		        }
+		    },
+		    methods: {
+				getMainData: function(id){
+				    var self = this;
+				    var callback = function(res){
+				        console.log('getMainData', res);
+				        self.mainData.push.apply(self.mainData,res.info.data);
+				        for (var i = 0; i < self.mainData.length; i++) {
+				        	self[self.mainData[i].title] = self.mainData[i];
+				        };
+				        self.getNewsData()
+				    };
+					console.log('self.mainData',self.mainData)
+				    window.base.labelGet(postData, callback);
+				}
+				
+		    }
+		});
+	</script>
+
+<style type="text/css">
+	
+	/* 页脚 */
+	.footer{background: #313131; }
+	.footer .cont{padding: 40px 0 20px 0;}
+	.footer .footNav{padding-bottom: 30px;border-bottom: 1px solid #acacac;}
+	.footer .footNav p{float: left;margin-right: 4%;}
+	.footer .footNav a{color: #fff;font-size: 18px;}
+	.footer .footMsg{margin-top: 50px;}
+	/* .footMsg .company{} */
+	.footMsg .ll .phone{font-size: 40px;color: #ff0000;line-height: 40px;}
+	.footMsg .ll .logo{width: 258px;height: 64px;display: block;margin: 0 auto;margin-top: 30px;}
+	
+	.footer .footMsg .ll{width: 70%;}
+	.footer .footMsg .ll .company {width: 40%;}
+	.footer .footMsg .ll .text{padding-left: 60px;width: 60%;box-sizing: border-box;}
+	.footer .footMsg .ll .text .p2{margin: 20px 0;}
+	.footer .footMsg .ewm{width: 120px;height: 120px;}
+	.copyRight{background-color: #292929;padding: 20px 0;}
+	
+	.footer .footMsg .rr{width: 30%;}
+	
+	@media only screen and (max-width: 1280px){
+		.footer .footNav p{width: 12.5%; margin-right: 0;}
+		.footer .footNav a{font-size: 16px;}
+		.footMsg .ll .phone{font-size: 34px;}
+		.footMsg .ll .logo{height: 50px;width: auto;}
+		.footer .footMsg .ll .text{padding-left: 35px;font-size: 15px;}
+	}
+	
+	@media only screen and (max-width: 1024px){
+		
+		.footer .cont{width: 96%;}
+		.footer .footNav a{font-size: 16px;}
+		.footer .footMsg .ll{width: 75%;}
+		.footMsg .ll .phone{font-size: 30px;}
+		.footer .footMsg .rr{width: 25%;}
+		.footer .footMsg .ll .text{padding-left: 30px;}
+		.footer .footMsg .ewm{width: 100px;height: 100px;}
+	}
+	
+	@media only screen and (max-width: 800px){
+		.footer .footMsg .ll{width: 100%;}
+		.footer .footMsg .rr{width: 100%;margin-top: 30px;}
+		.footer .footMsg .ewm{width: 120px;height: 120px;margin: 0 auto;float: initial;}
+		.copyRight{padding:10px 4%;font-size: 14px;}
+	}
+	@media only screen and (max-width: 500px){
+		.footer .cont{padding-top: 25px;}
+		.footer .footNav{font-size: 13px;padding-bottom: 15px;}
+		.footer .footNav p{width: 25%;text-align: center;margin-bottom: 5px;}
+		.footer .footNav a{font-size: 14px;}
+		.footer .footMsg{margin-top: 10px;padding: 0 2%;}
+		
+		.footer .footMsg .ll .company{width: 100%;margin-top: 10px;}
+		.footMsg .ll .logo{margin-top: 15px;}
+		.footer .footMsg .ll .text{width: 100%;padding-left: 0;margin-top:20px;font-size: 13px;text-align: center;}
+		.footer .footMsg .ll .text .p2{margin: 6px 0;}
+		
+		
+		
+		.footer .footMsg .rr{margin-top: 20px;}
+		.footer .footMsg .ewm{width: 100px;height: 100px;margin: 0 auto;}
+		.copyRight{font-size: 12px;}
+		
+	}
+</style>
+
