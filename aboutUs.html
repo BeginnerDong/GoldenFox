@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="js/swiper.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="css/public.css">
 		<link type="text/css" rel="stylesheet" href="css/aboutUs.css">
+		<link type="text/css" rel="stylesheet" href="css/swiper.min.css">
 	</head>
 
 <body>
@@ -86,16 +87,18 @@
 					</div>
 				</div>
 			</div>
-			<div class="borderB1"></div>
 			<div class="width83">
 				<div class="nameList center">
-					<div class="arrow prev"><img src="images/about-usl-icon1.png" ></div>
-					<div class="arrow next"><img src="images/about-usl-icon.png" ></div>
-					<div class="cont clearfix color6" style="flex-wrap: nowrap;">
-						<div class="child"  v-for="item in 专家团队" :key="item.id">
-							<p class="name">{{item.title}}</p>
-							<p class="lable">{{item.small_title}}</p>
+					<div class="cont clearfix color6 swiper-container" style="flex-wrap: nowrap;">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide child"  v-for="item in 专家团队" :key="item.id">
+								<p class="name">{{item.title}}</p>
+								<p class="lable">{{item.small_title}}</p>
+							</div>
 						</div>
+						<!-- 左右按钮 -->
+						<div class="arrow prev"><img src="images/about-usl-icon1.png" ></div>
+						<div class="arrow next"><img src="images/about-usl-icon.png" ></div>
 						
 					</div>
 				</div>
@@ -110,6 +113,28 @@
 	</div>
 </body>
 
+<script type="text/javascript">
+	window.onload = function () {
+	   $(function(){
+		   
+		   // 视频轮播
+		   var swiper = new Swiper('.nameList .cont', {
+			pagination: '.swiper-pagination',
+			nextButton: '.nameList .prev',
+			prevButton: '.nameList .next',
+			slidesPerView: 3,
+			centeredSlides: true,
+			paginationClickable: true,
+			spaceBetween: 30,
+			observer:true,//修改swiper自己或子元素时，自动初始化swiper
+			observeParents:true,//修改swiper的父元素时，自动初始化swiper
+			initialSlide: 1  //第一张图显示位置
+		   });
+		   
+	   }); 
+	}
+	
+</script>
 <script type="text/javascript">
 	var app = new Vue({
 		el: '#app',
