@@ -1,11 +1,14 @@
 <div id="banner_app"  style="height: 100%;">
-		<div class="banner clearfix" v-for="(item,index) in bannerData" v-show="index==banner_index" style="height:100%">
-			<img class="pic" :src="item" />
+		<div class="banner clearfix" v-for="(item,index) in 轮播图" v-show="index==banner_index" style="height:100%">
+			<a :href="item.passage1">
+				<img class="pic" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" />	
+			</a>
+			
 		</div>
 		
 		<!-- 导航点 -->
 		<div class="banBtnNav">
-			<span v-for="(item,index) in bannerData" :class="index==banner_index?'active':''" :data-index="index" @click="toBannerOne"></span>
+			<span v-for="(item,index) in 轮播图" :class="index==banner_index?'active':''" :data-index="index" @click="toBannerOne"></span>
 		</div>
 		
 </div>
@@ -27,7 +30,10 @@
 					thirdapp_id:window.base.thirdapp_id,
 					title:''
 				},
-				bannerTimer:null
+				bannerTimer:null,
+				'轮播图':[],
+				'成功案例和经验介绍':[],
+				'业务领域':[],
 	        }
 	    },
 	    created:function () {
@@ -42,20 +48,18 @@
 			};
 			
 			self.getMainData();
-			// window.base.bus.$on('to_headBanner',(res)=>{	
-			// 	if(res.mainImg){
-			// 		 self.bannerData = res.mainImg
-			// 		 return
-			// 	};
-			// 	console.log('res222',res)
-			// 	this.searchItem.title = res.title;
+			/* window.base.bus.$on('to_headBanner',(res)=>{	
+			 	if(res.mainImg){
+			 		 self.bannerData = res.mainImg
+			 		 return
+			 	};
+			 	console.log('res222',res)
+			 	this.searchItem.title = res.title;
 				
-			// 	this.to_headBanner()
-			// });
+			 	this.to_headBanner()
+			}); */
 			
-			self.bannerTimer = setInterval(function(){
-				self.changeBanner('+');
-			},3000)
+			
 	    },
 		
 		// destroyed() {
@@ -68,15 +72,44 @@
 			getMainData(){
 			    var self = this;
 			    var postData = {};
-				
 			    postData.searchItem = {
-					title:'轮播图'
+					thirdapp_id:2,
+				};
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['首页']]
+						},
+						condition:'in',
+					}
+				};
+				postData.getAfter = {
+					child:{
+						tableName:'Article',
+						middleKey:'id',
+						key:'menu_id',
+						searchItem:{
+							status:['in',[1]],
+						},
+						condition:'in',
+					}
 				};
 			    var callback = function(res){
-			        console.log('getMainData', res);
-					// self.bannerData = res.info.data[0].mainImg
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							self[res.info.data[i].title] = res.info.data[i].child
+							console.log(self[res.info.data[i].title])
+						}
+						
+			        }; 
+				   self.bannerTimer = setInterval(function(){
+					self.changeBanner('+');
+				   },3000)
 			    };
-				console.log('self.newsData',self.newsData)
 			    window.base.labelGet(postData, callback);
 			},
 			
@@ -110,9 +143,9 @@
 	    		};
 	    		
 	    		if(self.banner_index<0){
-	    			self.banner_index = self.bannerData.length-1
+	    			self.banner_index = self['轮播图'].length-1
 	    		};
-	    		if(self.banner_index==self.bannerData.length){
+	    		if(self.banner_index==self['轮播图'].length){
 	    			self.banner_index = 0
 	    		};	
 	    		console.log('self.banner_index',self.banner_index);

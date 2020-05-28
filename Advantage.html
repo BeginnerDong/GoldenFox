@@ -21,7 +21,7 @@
 	<div id="app">
 		<include src="header.html"></include>
 		<div class="">
-			<img class="w" src="images/advantagel-banner.jpg" >
+			<img class="w" :src="轮播图.mainImg&&轮播图.mainImg[0]?轮播图.mainImg[0].url:''" >
 		</div>
 		
 		<div class="width83  pdb80 ">
@@ -30,12 +30,12 @@
 				<p class="xian"></p>
 			</div>
 			<div class="advantgList">
-				<div class="item clearfix">
-					<h1 class="num">1</h1>
-					<p class="text">可对各种再制造行业难加工导电材料的外圆、内圆、平面、切割、大螺距、打孔、开坡口及异性成型等零件进行高效加工，与传统工艺结合可在通用机械设备“车磨铣刨镗切割”上实现高效加工，是对传统机械加工的发展,是超常规技术的常规化应用。</p>
-					<div class="icon clearfix"><img src="images/advantagel-img.png" ></div>
+				<div class="item clearfix" v-for="(item,index) in mainData" :key="index">
+					<h1 class="num">{{index+1}}</h1>
+					<p class="text">{{item.description}}</p>
+					<div class="icon clearfix"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" ></div>
 				</div>
-				<div class="item clearfix">
+				<!-- <div class="item clearfix">
 					<h1 class="num">2</h1>
 					<div class="icon clearfix"><img src="images/advantagel-img1.png" ></div>
 					<p class="text">短电弧加工没有切削力，加工稳定可靠、既可以以工作适应短电弧设备，也可以以设备适应工件进行各类短电弧加工，既有机床、便携式可移动等短电弧设备；为再制造提供了多样化的加工手段。</p>
@@ -49,7 +49,7 @@
 					<h1 class="num">4</h1>
 					<div class="icon clearfix"><img src="images/advantagel-img3.png" ></div>
 					<p class="text">可以有效增强企业装备竞争力，大幅度降低工人劳动强度，降低企业成本和用工数量，提高工效，是绿色、环保、节能、减排的优势技术及装备。</p>
-				</div>
+				</div> -->
 
 			</div>
 		</div>
@@ -70,23 +70,81 @@
 				wx_show:2,
 				mainData: [],
 				labelData: [],
-				zzjgData:4
+				zzjgData:4,
+				'轮播图':{}
 			}
 		},
+		
+		created:function () {
+		    var self = this;
+			self.getMainData();
+			self.getLabelData()
+		},
+		
 		methods: {
-			getMainData: function(id){
-				var self = this;
-				var callback = function(res){
-					console.log('getMainData', res);
-					self.mainData.push.apply(self.mainData,res.info.data);
-					for (var i = 0; i < self.mainData.length; i++) {
-						self[self.mainData[i].title] = self.mainData[i];
-					};
-					self.getNewsData()
+			
+			getLabelData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
 				};
-				console.log('self.mainData',self.mainData)
-				window.base.labelGet(postData, callback);
-			}
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['核心优势']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							if(res.info.data[i].title=='轮播图'){
+								self['轮播图'] = res.info.data[i]
+							}
+						}
+						//self.labelData.push.apply(self.labelData,res.info.data)
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
+			
+			getMainData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+				};
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['核心优势']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.mainData.push.apply(self.mainData,res.info.data)
+			        };    
+			    };
+			    window.base.articleGet(postData, callback);
+			},
 			
 		}
 	});

@@ -90,18 +90,18 @@
 	<div id="app">
 		<include src="header.html"></include>
 		<!-- <include src="banner.html"></include> -->
-		<div class="">
-			<img class="w" src="images/banner1.jpg" >
-		</div>
+		<a class="" :href="轮播图.url?轮播图.url:''">
+			<img class="w" :src="轮播图.mainImg&&轮播图.mainImg[0]?轮播图.mainImg[0].url:''" >
+		</a>
 		
 		<div class="caseList">
 			<div class="clearfix">
-				<div class="item fl" v-for="(item,index) in caseData" :key="index">
-					<a href="detail.html">
-						<div class="title center avoidOverflow">产品标题产品标题产品标题</div>
+				<div class="item fl" v-for="(item,index) in mainData" :key="index">
+					<a :href="'detail.html?id='+item.id">
+						<div class="title center avoidOverflow">{{item.title}}</div>
 						<div class="infor">
-							<div class="pic"><img src="images/casel-img.jpg" alt=""></div>
-							<p class="text avoidOverflow3 color6">讲话稿昆仑神宫更好发动机开了个会打飞机开了个复活甲看电视了飞瑞斯法会让是在说咖啡豆了和吃饭的时候了哈根达斯哦附近弱势欧冠过分精灵盛典过会官方号地块好过分开了读后感如果换个挂号费收费GV话费送道具发货</p>
+							<div class="pic"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" alt=""></div>
+							<p class="text avoidOverflow3 color6">{{item.description}}</p>
 						</div>
 					</a>
 				</div>
@@ -109,13 +109,9 @@
 		</div>
 		
 		<div class="all-pages">
-			<a class="no-prev"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
-			<a class="current">1</a>
-			<a href="#">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<a href="#">5</a>
-			<a href="#" class="next"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
+			<a class="no-prev" data-type="back" @click="changePage"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
+			<a v-for="item in pageArray" :class="item == paginate.currentPage?'current':''" @click="linkTo(item)">{{item}}</a>
+			<a class="next" data-type="next" @click="changePage"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
 		</div>
 		
 		
@@ -129,32 +125,112 @@
 		el: '#app',
 		data:function(){
 			return {
-				banner_index:0,
-				is_show:false,
-				wx_show:2,
 				mainData: [],
-				labelData: [],
-				caseData:9
+				'轮播图':{},
+				linkPage: [],
+				pageArray: [],
+				paginate:{
+					count: 0,
+					currentPage: 1,
+					pagesize: 9,
+					is_page: true,
+				},
+				allPages: 0,
 			}
 		},
+		
+		created:function () {
+		    var self = this;
+			self.getMainData();
+			self.getLabelData()
+		},
+		
 		methods: {
-			getMainData: function(id){
-				var self = this;
-				var callback = function(res){
-					console.log('getMainData', res);
-					self.mainData.push.apply(self.mainData,res.info.data);
-					for (var i = 0; i < self.mainData.length; i++) {
-						self[self.mainData[i].title] = self.mainData[i];
-					};
-					self.getNewsData()
+			
+			getLabelData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
 				};
-				console.log('self.mainData',self.mainData)
-				window.base.labelGet(postData, callback);
-			}
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['工程案例']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							if(res.info.data[i].title=='轮播图'){
+								self['轮播图'] = res.info.data[i]
+							}
+						}
+						//self.labelData.push.apply(self.labelData,res.info.data)
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
+			
+			getMainData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+				};
+				postData.paginate = window.base.cloneForm(self.paginate);
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['工程案例']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.mainData.push.apply(self.mainData,res.info.data)
+						self.paginate['count'] = res.info.total;
+						window.base.computePageArr(self);
+			        };    
+			    };
+			    window.base.articleGet(postData, callback);
+			},
+			
+			linkTo(item) {
+				var self = this;
+				console.log(item);
+				self.linkPage = item;
+				window.base.linkTo(self);
+				console.log(self.pageArray)
+			},
+			
+			changePage(e) {
+				var self = this;
+				var dataSet = window.base.getDataSet(e);
+				window.base.changePage(dataSet, self);
+			},
 			
 		}
 	});
 </script>
+
 
 
 </html>

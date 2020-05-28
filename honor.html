@@ -21,29 +21,25 @@
 		<include src="header.html"></include>
 		<!-- <include src="banner.html"></include> -->
 		<div class="">
-			<img class="w" src="images/homorl-banner.jpg" >
+			<img class="w" :src="轮播图.mainImg&&轮播图.mainImg[0]?轮播图.mainImg[0].url:''" >
 		</div>
 		
 		<div class="honorList center">
 			<div class="clearfix">
-				<div class="item fl" v-for="(item,index) in honorData" :key="index">
+				<div class="item fl" v-for="(item,index) in mainData" :key="index">
 					<div class="pic">
-						<img src="images/homorl-img1.jpg" alt="">
+						<img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" alt="">
 					</div>
 					<div class="Shaow"></div>
-					<div class="tit avoidOverflow2">参加“创客中国”创新创业大赛全国总冠军</div>
+					<div class="tit avoidOverflow2">{{item.title}}</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="all-pages">
-			<a class="no-prev"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
-			<a class="current">1</a>
-			<a href="#">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<a href="#">5</a>
-			<a href="#" class="next"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
+			<a class="no-prev" data-type="back" @click="changePage"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
+			<a v-for="item in pageArray" :class="item == paginate.currentPage?'current':''" @click="linkTo(item)">{{item}}</a>
+			<a class="next" data-type="next" @click="changePage"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
 		</div>
 		
 		
@@ -57,32 +53,112 @@
 		el: '#app',
 		data:function(){
 			return {
-				banner_index:0,
-				is_show:false,
-				wx_show:2,
 				mainData: [],
-				labelData: [],
-				honorData:12
+				'轮播图':{},
+				linkPage: [],
+				pageArray: [],
+				paginate:{
+					count: 0,
+					currentPage: 1,
+					pagesize: 12,
+					is_page: true,
+				},
+				allPages: 0,
 			}
 		},
+		
+		created:function () {
+		    var self = this;
+			self.getMainData();
+			self.getLabelData()
+		},
+		
 		methods: {
-			getMainData: function(id){
-				var self = this;
-				var callback = function(res){
-					console.log('getMainData', res);
-					self.mainData.push.apply(self.mainData,res.info.data);
-					for (var i = 0; i < self.mainData.length; i++) {
-						self[self.mainData[i].title] = self.mainData[i];
-					};
-					self.getNewsData()
+			
+			getLabelData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
 				};
-				console.log('self.mainData',self.mainData)
-				window.base.labelGet(postData, callback);
-			}
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['荣誉资质']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							if(res.info.data[i].title=='轮播图'){
+								self['轮播图'] = res.info.data[i]
+							}
+						}
+						//self.labelData.push.apply(self.labelData,res.info.data)
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
+			
+			getMainData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+				};
+				postData.paginate = window.base.cloneForm(self.paginate);
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['荣誉资质']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.mainData.push.apply(self.mainData,res.info.data)
+						self.paginate['count'] = res.info.total;
+						window.base.computePageArr(self);
+			        };    
+			    };
+			    window.base.articleGet(postData, callback);
+			},
+			
+			linkTo(item) {
+				var self = this;
+				console.log(item);
+				self.linkPage = item;
+				window.base.linkTo(self);
+				console.log(self.pageArray)
+			},
+			
+			changePage(e) {
+				var self = this;
+				var dataSet = window.base.getDataSet(e);
+				window.base.changePage(dataSet, self);
+			},
 			
 		}
 	});
 </script>
+
 
 
 </html>

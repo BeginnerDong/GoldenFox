@@ -15,18 +15,18 @@
 			<div class="footMsg clearfix">
 				<div class="ll fl oh">
 					<div class="company fl center">
-						<h1 class="phone ">029-8956-2589</h1>
-						<img class="logo" src="images/home-logo.png" >
+						<h1 class="phone ">{{footData.phone}}</h1>
+						<img class="logo" :src="footData.mainImg&&footData.mainImg[0]?footData.mainImg[0].url:''" >
 					</div>
 					<div class="text fs16 fl">
-						<p>邮箱：123456789452@163.com</p>
-						<p class="p2">QQ：5464646646</p>
-						<p>地址：西安市高新区锦业路38号粤汉国际D作23层</p>
+						<p>邮箱：{{footData.email}}</p>
+						<p class="p2">QQ：{{footData.small_title}}</p>
+						<p>地址：{{footData.address}}</p>
 					</div>
 					
 				</div>
 				<div class="rr fr clearfix">
-					<img class="ewm fr" src="images/home-img4.png" >
+					<img class="ewm fr" :src="footData.bannerImg&&footData.bannerImg[0]?footData.bannerImg[0].url:''" >
 				</div>
 			</div>
 		</div>
@@ -43,23 +43,46 @@
 					is_show:false,
 					wx_show:2,
 					mainData: [],
-					labelData: []
+					labelData: [],
+					footData:{}
 		        }
 		    },
+			
+			created:function () {
+			    var self = this;
+				self.getFootData();
+			},
+			
 		    methods: {
-				getMainData: function(id){
+				
+				getFootData(){
 				    var self = this;
+				    var postData = {};
+				    postData.searchItem = {
+						thirdapp_id:2,
+					};
+					postData.getBefore = {
+						child:{
+							tableName:'Label',
+							middleKey:'menu_id',
+							key:'id',
+							searchItem:{
+								status:['in',[1]],
+								title:['in',['底部导航']]
+							},
+							condition:'in',
+						}
+					};
+					postData.order = {
+						listorder:'desc'
+					};
 				    var callback = function(res){
-				        console.log('getMainData', res);
-				        self.mainData.push.apply(self.mainData,res.info.data);
-				        for (var i = 0; i < self.mainData.length; i++) {
-				        	self[self.mainData[i].title] = self.mainData[i];
-				        };
-				        self.getNewsData()
+				        if(res.info.data.length>0&&res.info.data[0]){
+							self.footData = res.info.data[0]
+				        };    
 				    };
-					console.log('self.mainData',self.mainData)
-				    window.base.labelGet(postData, callback);
-				}
+				    window.base.articleGet(postData, callback);
+				},
 				
 		    }
 		});

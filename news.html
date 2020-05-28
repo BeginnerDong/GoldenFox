@@ -97,14 +97,14 @@
 		
 		<div class="">
 			<div class="projctbox clearfix">
-				<div class="item borderB1" v-for="(item,index) in projctData" :key="index">
-					<a href="detail.html">
-						<img class="photo" src="images/new-img.jpg">
+				<div class="item borderB1" v-for="(item,index) in mainData" :key="index">
+					<a :href="'detail.html?id='+item.id">
+						<img class="photo" :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''">
 						<div class="infor">
-							<h2 class="avoidOverflow">尽快发货快乐看帅哥合格咖啡店国际饭店更换发动机开工瑞回复过分的话购房即可大V放假大</h2>
-							<p class="tex2 avoidOverflow3">中央驻港机构严格按照宪法恢复上课法和中央授权在港履行职责，不容挑战，呼吁香港社会全体市民，认清极少数激进分子的暴力危害和本质，坚决维护一国两制，维护法治，中联办表示，坚决支持特区政府和警队依法严惩违法暴力行为，维护香港的社会稳定。中央驻港机构严格按照宪法、基本法和中央授权在港履行职责，不容挑战，呼吁香认清极少数激进分子的暴力危害和本质</p>
+							<h2 class="avoidOverflow">{{item.title}}</h2>
+							<p class="tex2 avoidOverflow3">{{item.description}}</p>
 							<div class="clearfix B-data">
-								<p class="data fl">2019-7-23</p>
+								<p class="data fl">{{item.create_time}}</p>
 								<p class="open pubColor fr clearfix">
 									<img class="arrow" src="images/new-icon.png" >
 									<em class="">查看详情</em>
@@ -117,13 +117,9 @@
 			</div>
 						
 			<div class="all-pages">
-				<a class="no-prev"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
-				<a class="current">1</a>
-				<a href="#">2</a>
-				<a href="#">3</a>
-				<a href="#">4</a>
-				<a href="#">5</a>
-				<a href="#" class="next"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
+				<a class="no-prev" data-type="back" @click="changePage"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
+				<a v-for="item in pageArray" :class="item == paginate.currentPage?'current':''" @click="linkTo(item)">{{item}}</a>
+				<a class="next" data-type="next" @click="changePage"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
 			</div>
 		</div>
 		
@@ -138,38 +134,112 @@
 		el: '#app',
 		data:function(){
 			return {
-				banner_index:0,
-				is_show:false,
-				wx_show:2,
 				mainData: [],
-				labelData: [],
-				curr:0,
-				navData:['产品案例','设计案例'],
-				projctData:8
+				'轮播图':{},
+				linkPage: [],
+				pageArray: [],
+				paginate:{
+					count: 0,
+					currentPage: 1,
+					pagesize: 8,
+					is_page: true,
+				},
+				allPages: 0,
 			}
 		},
+		
+		created:function () {
+		    var self = this;
+			self.getMainData();
+			self.getLabelData()
+		},
+		
 		methods: {
-			changeCurr(index){
-				const self = this;
-				self.curr = index
-			},
-			getMainData: function(id){
-				var self = this;
-				var callback = function(res){
-					console.log('getMainData', res);
-					self.mainData.push.apply(self.mainData,res.info.data);
-					for (var i = 0; i < self.mainData.length; i++) {
-						self[self.mainData[i].title] = self.mainData[i];
-					};
-					self.getNewsData()
+			
+			getLabelData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
 				};
-				console.log('self.mainData',self.mainData)
-				window.base.labelGet(postData, callback);
-			}
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['新闻中心']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							if(res.info.data[i].title=='轮播图'){
+								self['轮播图'] = res.info.data[i]
+							}
+						}
+						//self.labelData.push.apply(self.labelData,res.info.data)
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
+			
+			getMainData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+				};
+				postData.paginate = window.base.cloneForm(self.paginate);
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['新闻中心']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.mainData.push.apply(self.mainData,res.info.data)
+						self.paginate['count'] = res.info.total;
+						window.base.computePageArr(self);
+			        };    
+			    };
+			    window.base.articleGet(postData, callback);
+			},
+			
+			linkTo(item) {
+				var self = this;
+				console.log(item);
+				self.linkPage = item;
+				window.base.linkTo(self);
+				console.log(self.pageArray)
+			},
+			
+			changePage(e) {
+				var self = this;
+				var dataSet = window.base.getDataSet(e);
+				window.base.changePage(dataSet, self);
+			},
 			
 		}
 	});
 </script>
+
 
 
 </html>

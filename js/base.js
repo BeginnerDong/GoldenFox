@@ -1,5 +1,5 @@
 window.base = {
-	g_restUrl: 'http://www.xianaxty.com/api/public/index.php/api/v1/',
+	g_restUrl: 'http://106.12.155.217/goldenfox/public/index.php/api/v1/',
 
 	thirdapp_id:2,
 	test:666,
@@ -1039,7 +1039,8 @@ window.base = {
 				alert('已经到底啦')
 			} else {
 				self.paginate.currentPage++;
-				
+				self.mainData = [];
+				self.getMainData();
 			}
 		};
 		if (dataSet.type == 'back') {
@@ -1047,7 +1048,8 @@ window.base = {
 				alert('已经没有啦')
 			} else {
 				self.paginate.currentPage--;
-				
+				self.mainData = [];
+				self.getMainData();
 			}
 		};
 
@@ -1059,7 +1061,8 @@ window.base = {
 			self.linkPage = '';
 		} else {
 			self.paginate.currentPage = self.linkPage;
-			return true;
+			self.mainData = [];
+			self.getMainData();
 			
 		}
 

@@ -36,10 +36,10 @@
 				</div>
 				<div class="ind-box1">
 					<ul class="clearfix">
-						<li class="item fl" v-for="(item,index) in newsData" :key="index">
+						<li class="item fl" v-for="(item,index) in 业务领域" :key="index">
 							<a href="detail.html">
-								<p class="tit avoidOverflow center">积分开始的恢复</p>
-								<div class="pic oh"><img src="images/home-img.jpg" /></div>
+								<p class="tit avoidOverflow center">{{item.title}}</p>
+								<div class="pic oh"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" /></div>
 							</a>
 						</li>
 					</ul>
@@ -56,10 +56,10 @@
 				</div>
 				<div class="cont">
 					<ul class="clearfix">
-						<li class="item fl" v-for="(item,index) in caseData" :key="index">
+						<li class="item fl" v-for="(item,index) in 成功案例和经验介绍" :key="index">
 							<a href="detail.html">
-								<div class="pic oh"><img src="images/home-img1.jpg" /></div>
-								<p class="tit avoidOverflow center">积分开始的恢复</p>
+								<div class="pic oh"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" /></div>
+								<p class="tit avoidOverflow center">{{item.title}}</p>
 							</a>
 						</li>
 					</ul>
@@ -78,24 +78,19 @@
 				</div>
 				<div class="infor clearfix center">
 					<div class="item" v-for="(item,index) in productData" :key="index">
-						<p class="tit avoidOverflow">数控短电弧蜂窝磨削加工机床</p>
-						<div class="bigPic"><img src="images/home-img2.png" ></div>
+						<p class="tit avoidOverflow">{{item.title}}</p>
+						<div class="bigPic"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" ></div>
 						<div class="samllPic borderB1 color6 clearfix">
-							<div class="tt">
-								<img class="img" src="images/home-img3.png" >
-								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
+							<div class="tt" v-for="(c_item,c_index) in item.bannerImg" :key="index">
+								<img class="img" :src="c_item.url" >
+								<!-- <p class="s-tit avoidOverflow">高混合材料贴纸加工</p> -->
 							</div>
-							<div class="tt">
-								<img class="img" src="images/home-img3.png" >
-								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
-							</div>
-							<div class="tt">
-								<img class="img" src="images/home-img3.png" >
-								<p class="s-tit avoidOverflow">高混合材料贴纸加工</p>
-							</div>
+							
 						</div>
-						<div class="textTit center">用途及使用范围</div>
-						<div class="avoidOverflow3 text2">好过分分，收到货法规获国家开发第三轮很给力规范化但实力，发鼓风机考虑到加工费鲁大师哦扔；一切都是公用的，都已经进入了公摊面积，每户都承担了费用，产权是共有的公共使用任何人不得占为独有你的问题可以找小区物业管理解决区物业管理解决</div>
+						<!-- <div class="textTit center">用途及使用范围</div> -->
+						<div class="avoidOverflow3 text2">
+							{{item.description}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -119,23 +114,99 @@
 				labelData: [],
 				newsData:4,
 				caseData:5,
-				productData:3
+				
+				'轮播图':[],
+				'成功案例和经验介绍':[],
+				'业务领域':[],
+				paginate:{
+					count: 0,
+					currentPage: 1,
+					pagesize: 3,
+					is_page: true,
+				},
+				productData:[]
 			}
 		},
+		
+		created:function () {
+		    var self = this;
+			self.getMainData();
+			self.getProductData()
+		},
+		
 		methods: {
-			getMainData: function(id){
-				var self = this;
-				var callback = function(res){
-					console.log('getMainData', res);
-					self.mainData.push.apply(self.mainData,res.info.data);
-					for (var i = 0; i < self.mainData.length; i++) {
-						self[self.mainData[i].title] = self.mainData[i];
-					};
-					self.getNewsData()
+			
+			getMainData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
 				};
-				console.log('self.mainData',self.mainData)
-				window.base.labelGet(postData, callback);
-			}
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'parentid',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['首页']]
+						},
+						condition:'in',
+					}
+				};
+				postData.getAfter = {
+					child:{
+						tableName:'Article',
+						middleKey:'id',
+						key:'menu_id',
+						searchItem:{
+							status:['in',[1]],
+						},
+						condition:'in',
+					}
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						for (var i = 0; i < res.info.data.length; i++) {
+							self[res.info.data[i].title] = res.info.data[i].child
+							console.log(self[res.info.data[i].title])
+						}
+						
+			        };    
+			    };
+			    window.base.labelGet(postData, callback);
+			},
+			
+			getProductData(){
+			    var self = this;
+			    var postData = {};
+			    postData.searchItem = {
+					thirdapp_id:2,
+				};
+				postData.paginate = window.base.cloneForm(self.paginate);
+				postData.getBefore = {
+					child:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							status:['in',[1]],
+							title:['in',['产品中心']]
+						},
+						condition:'in',
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+			    var callback = function(res){
+			        if(res.info.data.length>0&&res.info.data[0]){
+						self.productData.push.apply(self.productData,res.info.data)
+					
+			        };    
+			    };
+			    window.base.articleGet(postData, callback);
+			},
 			
 		}
 	});
