@@ -76,14 +76,14 @@
 		<div class="f5bj aboutUs-box4">
 			<div class="width83">
 				<div class="topInfor clearfix">
-					<div class="leftPhoto fl"><img src="images/about-usl-img3.jpg" ></div>
+					<div class="leftPhoto fl"><img :src="choose.mainImg&&choose.mainImg[0]?choose.mainImg[0].url:''" ></div>
 					<div class="persInfor fl">
 						<div class="title">专家团队</div>
 						<div>
 							<span class="xianY"></span>
 						</div>
-						<div class="title">周碧胜<em class="mgl5 fs18">Chairman</em></div>
-						<p class="text">复健科大圣归来规范化速度快两个方法和砀山梨膏回访记录挂号费见多识广非结构化和高静发多少</p>
+						<div class="title">{{choose.title}}<em class="mgl5 fs18">{{choose.small_title}}</em></div>
+						<p class="text">{{choose.description}}</p>
 					</div>
 				</div>
 			</div>
@@ -118,18 +118,7 @@
 	   $(function(){
 		   
 		   // 视频轮播
-		   var swiper = new Swiper('.nameList .cont', {
-			pagination: '.swiper-pagination',
-			nextButton: '.nameList .prev',
-			prevButton: '.nameList .next',
-			slidesPerView: 3,
-			centeredSlides: true,
-			paginationClickable: true,
-			spaceBetween: 30,
-			observer:true,//修改swiper自己或子元素时，自动初始化swiper
-			observeParents:true,//修改swiper的父元素时，自动初始化swiper
-			initialSlide: 1  //第一张图显示位置
-		   });
+		   
 		   
 	   }); 
 	}
@@ -150,6 +139,7 @@
 				'产业布局':[],
 				'组织架构':[],
 				'专家团队':[],
+				choose:{}
 			}
 		},
 		
@@ -196,18 +186,23 @@
 							self[res.info.data[i].title] = res.info.data[i].child
 							console.log(self[res.info.data[i].title])
 						}
-						var swiper = new Swiper('.nameList', {
-						   // loop: true,
-						   initialSlide:0,
-						    slidesPerView: 3,
-						    spaceBetween : 10,
+						self.choose = self['专家团队'][0]
+						var swiper = new Swiper('.nameList .cont', {
 							pagination: '.swiper-pagination',
-							nextButton: '.swiper-button-next',
-							prevButton: '.swiper-button-prev',
-							
-							observer: true,//修改swiper自己或子元素时，自动初始化swiper
-							observeParents: true,//修改swiper的父元素时，自动初始化swiper
-						})
+							nextButton: '.nameList .next',
+							prevButton: '.nameList .prev',
+							slidesPerView: 3,
+							centeredSlides: true,
+							paginationClickable: true,
+							spaceBetween: 30,
+							observer:true,//修改swiper自己或子元素时，自动初始化swiper
+							observeParents:true,//修改swiper的父元素时，自动初始化swiper
+							initialSlide: 0  ,//第一张图显示位置
+							onSlideChangeEnd: function(swiper){
+							  //alert(swiper.activeIndex) //切换结束时，告诉我现在是第几个slide
+							  self.choose = self['专家团队'][swiper.activeIndex]
+							}
+						});
 			        };    
 			    };
 			    window.base.labelGet(postData, callback);

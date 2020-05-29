@@ -132,14 +132,14 @@
 			</div>
 			<div class="boxShaow editBoard">
 				<div class="clearfix">
-					<div class="half name fl"><input type="text" name="" value="" placeholder="姓名" /></div>
-					<div class="half phone fr"><input type="text" name="" value="" placeholder="电话" /></div>
+					<div class="half name fl"><input type="text" v-model="submitData.title" placeholder="姓名" /></div>
+					<div class="half phone fr"><input type="text" v-model="submitData.phone" placeholder="电话" /></div>
 				</div>
 				<div class="liuyan">
-					<textarea rows="" cols="" placeholder="留言"></textarea>
+					<textarea rows="" cols="" v-model="submitData.content" placeholder="留言"></textarea>
 				</div>
 				<div class="submitbtn">
-					<button class="Wbtn" type="button">确认留言</button>
+					<button class="Wbtn" type="button" @click="addMessage">确认留言</button>
 				</div>
 			</div>
 		</div>
@@ -162,7 +162,14 @@
 				mainData: [],
 				labelData: [],
 				zzjgData:4,
-				'轮播图':{}
+				'轮播图':{},
+				submitData:{
+					title:'',
+					phone:'',
+					content:'',
+					thirdapp_id:2,
+					type:1
+				},
 			}
 		},
 		
@@ -173,6 +180,37 @@
 		},
 		
 		methods: {
+			
+			addMessage: function(id) {
+				var self = this;
+				
+				if(self.submitData.title==''){
+					alert('请输入姓名');
+					return
+				};
+				if(self.submitData.phone==''){
+					alert('请输入电话');
+					return
+				};
+				if(self.submitData.content==''){
+					alert('请输入备注');
+					return
+				};
+				var postData = {
+					data:window.base.cloneForm(self.submitData)
+				};
+				var callback = function(res){
+					if(res.solely_code==100000){
+						alert('提交成功')
+						self.submitData = {
+							title:'',
+							phone:'',
+							content:''
+						}
+					}
+				};
+				window.base.JustaddMessage(postData, callback);
+			},
 			
 			getLabelData(){
 			    var self = this;
