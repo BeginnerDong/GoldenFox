@@ -37,7 +37,7 @@
 				<div class="ind-box1">
 					<ul class="clearfix">
 						<li class="item fl" v-for="(item,index) in 业务领域" :key="index">
-							<a href="detail.html">
+							<a :href="'detail.html?id='+item.id">
 								<p class="tit avoidOverflow center">{{item.title}}</p>
 								<div class="pic oh"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" /></div>
 							</a>
@@ -57,7 +57,7 @@
 				<div class="cont">
 					<ul class="clearfix">
 						<li class="item fl" v-for="(item,index) in 成功案例和经验介绍" :key="index">
-							<a href="detail.html">
+							<a :href="'detail.html?id='+item.id">
 								<div class="pic oh"><img :src="item.mainImg&&item.mainImg[0]?item.mainImg[0].url:''" /></div>
 								<p class="tit avoidOverflow center">{{item.title}}</p>
 							</a>

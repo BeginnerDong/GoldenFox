@@ -109,9 +109,9 @@
 		</div>
 		
 		<div class="all-pages">
-			<a class="no-prev" data-type="back" @click="changePage"><img class="arrowIcon" src="images/productl-icon1.png" ></a>
+			<a class="no-prev"><img  data-type="back" @click="changePage" class="arrowIcon" src="images/productl-icon1.png" ></a>
 			<a v-for="item in pageArray" :class="item == paginate.currentPage?'current':''" @click="linkTo(item)">{{item}}</a>
-			<a class="next" data-type="next" @click="changePage"><img class="arrowIcon" src="images/productl-icon2.png" ></a>
+			<a class="next"><img  data-type="next" @click="changePage" class="arrowIcon" src="images/productl-icon2.png" ></a>
 		</div>
 		
 		
