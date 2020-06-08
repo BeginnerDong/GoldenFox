@@ -39,6 +39,10 @@
 @media screen and ( max-width: 640px){
 	.productLis .item .pic{height: 129px;}
 }
+@media screen and ( max-width: 500px){
+	.productLis .item{width: 48.5%;margin-bottom: 10px;margin: 0 0 10px 0;}
+	.productLis .item:nth-child(2n){float: right;}
+}
 @media screen and ( max-width: 420px){
 	.productLis{padding-top: 15px;}
 	.productLis .item{width: 48.5%;margin-bottom: 10px;margin: 0 0 10px 0;}

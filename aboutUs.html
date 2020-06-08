@@ -188,7 +188,7 @@
 							console.log(self[res.info.data[i].title])
 						}
 						self.choose = self['专家团队'][0]
-						var swiper = new Swiper('.nameList .cont', {
+						var swiper = new Swiper('.swiper-container', {
 							pagination: '.swiper-pagination',
 							nextButton: '.nameList .next',
 							prevButton: '.nameList .prev',
@@ -197,9 +197,10 @@
 							paginationClickable: true,
 							spaceBetween: 30,
 							observer:true,//修改swiper自己或子元素时，自动初始化swiper
-							observeParents:true,//修改swiper的父元素时，自动初始化swiper
+							observeParents:false,//修改swiper的父元素时，自动初始化swiper
 							initialSlide: 0  ,//第一张图显示位置
 							onSlideChangeEnd: function(swiper){
+								swiper.update();  
 							  //alert(swiper.activeIndex) //切换结束时，告诉我现在是第几个slide
 							  self.choose = self['专家团队'][swiper.activeIndex]
 							}
