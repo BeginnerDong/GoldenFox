@@ -56,7 +56,8 @@
 .nameList .swiper-slide-active{transform: scale(1);color: #222;}
 .nameList .child.swiper-slide-active:before{content: '';width: 2px;height: 40px;background: #e3041f;position: absolute;left: 50%;transform: translateX(-50%);top: -20px;}
 
-
+.arrow{width: 100px;z-index: 99;cursor: pointer;margin: 20px;font-size: 30px;color: #999;}
+.arrow:hover{color: #E3041F;}
 
 @media screen and ( max-width: 1600px){
 	.aboutUs-box3 .item .pic{height: 178px;}
