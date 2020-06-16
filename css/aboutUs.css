@@ -44,10 +44,10 @@
 
 .nameList{position: relative;padding-top: 20px;overflow: hidden;}
 .nameList .cont{border-top: 1px solid #E1E1E1;overflow: initial;padding: 0 4%;}
-.nameList .arrow{padding: 0 10px;position: absolute;top: 50%;transform: translateY(-50%);}
+/* .nameList .arrow{padding: 0 10px;position: absolute;top: 50%;transform: translateY(-50%);} */
 .nameList .arrow img{width: 12px;height: 22px;display: block;}
-.nameList .arrow.prev{left: -10px;}
-.nameList .arrow.next{right: -10px;}
+/* .nameList .arrow.prev{left: -10px;}
+.nameList .arrow.next{right: -10px;} */
 .nameList .child{width: 33.33%;float: left;font-size: 16px;padding: 40px 3%;transform: scale(0.9);}
 .nameList .child .name{margin-bottom: 10px;}
 .nameList .child.on{position: relative;color: #222;}
